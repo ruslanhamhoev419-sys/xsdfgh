@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VoiceEnhance Pro</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;
+    background:
+        radial-gradient(circle at 50% 10%, rgba(212,175,55,0.12), transparent 40%),
+        linear-gradient(180deg,#0c0f18,#0a0d14 60%,#07090f);
+    color:#fff;
+    min-height:100vh;
+}
+
+.container{
+    width:900px;
+    max-width:95%;
+    margin:0 auto;
+    padding:40px 0;
+}
+
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:40px;
+}
+
+.logo{
+    font-family:Georgia,serif;
+    font-size:22px;
+    color:#e6d6a6;
+}
+
+.tag{
+    font-size:14px;
+    color:#aaa;
+}
+
+.hero{
+    text-align:center;
+    margin-bottom:50px;
+}
+
+.hero h1{
+    font-family:Georgia,serif;
+    font-size:48px;
+    font-weight:400;
+    margin-bottom:15px;
+    background:linear-gradient(180deg,#ffffff,#d8caa0);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.hero p{
+    color:#c9c9c9;
+    font-size:18px;
+}
+
+.upload{
+    background:rgba(255,255,255,0.04);
+    border:1px solid rgba(198,167,94,0.4);
+    border-radius:28px;
+    padding:40px;
+    text-align:center;
+    margin-bottom:40px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.upload:hover{
+    background:rgba(255,255,255,0.06);
+    box-shadow:0 0 30px rgba(198,167,94,0.15);
+}
+
+.sliders{
+    display:grid;
+    grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+    gap:25px;
+    margin-bottom:40px;
+}
+
+.slider label{
+    display:block;
+    margin-bottom:14px;
+    color:#e6d6a6;
+    font-size:16px;
+}
+
+input[type=range]{
+    width:100%;
+    -webkit-appearance:none;
+    height:4px;
+    background:rgba(255,255,255,0.2);
+    border-radius:10px;
+}
+
+input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none;
+    width:18px;
+    height:18px;
+    border-radius:50%;
+    background:linear-gradient(180deg,#f6e7b5,#c6a75e);
+    box-shadow:0 0 12px rgba(198,167,94,0.8);
+    cursor:pointer;
+}
+
+.actions{
+    text-align:center;
+    margin-bottom:40px;
+}
+
+.btn-main{
+    background:linear-gradient(180deg,#f6e7b5,#c6a75e);
+    border:none;
+    padding:16px 40px;
+    border-radius:12px;
+    font-size:18px;
+    color:#111;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.btn-main:hover{
+    transform:translateY(-2px);
+    box-shadow:0 10px 25px rgba(198,167,94,0.3);
+}
+
+.btn-clear{
+    margin-left:20px;
+    background:none;
+    border:none;
+    color:#aaa;
+    font-size:18px;
+    cursor:pointer;
+}
+
+.result{
+    margin-top:30px;
+    display:none;
+    text-align:center;
+}
+
+audio{
+    width:100%;
+    margin-top:15px;
+}
+
+.features{
+    margin-top:60px;
+    display:flex;
+    justify-content:space-between;
+    text-align:center;
+    color:#aaa;
+    font-size:14px;
+    gap:20px;
+}
+
+.feature{
+    flex:1;
+    padding:20px;
+    border:1px solid rgba(255,255,255,0.05);
+    border-radius:18px;
+    background:rgba(255,255,255,0.02);
+}
+
+@media (max-width:768px){
+    .hero h1{font-size:32px;}
+    .hero p{font-size:15px;}
+    .features{flex-direction:column;}
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<div class="header">
+<div class="logo">VoiceEnhance Pro</div>
+<div class="tag">Профессиональная обработка</div>
+</div>
+
+<section class="hero">
+<h1>Сделай голос глубоким и чистым</h1>
+<p>Идеально для чтения Корана, лекций и студийной записи</p>
+</section>
+
+<div class="upload" id="uploadArea">
+<p>Нажмите чтобы выбрать файл (WAV, MP3, M4A)</p>
+<input type="file" id="fileInput" accept="audio/*" style="display:none;">
+</div>
+
+<div class="sliders">
+
+<div class="slider">
+<label>Мягкость</label>
+<input type="range" id="softness" min="0" max="1" step="0.01" value="0.6">
+</div>
+
+<div class="slider">
+<label>Чистота</label>
+<input type="range" id="clarity" min="0" max="1" step="0.01" value="0.5">
+</div><div class="slider">
+<label>Глубина</label>
+<input type="range" id="depth" min="0" max="1" step="0.01" value="0.4">
+</div>
+
+<div class="slider">
+<label>Эхо</label>
+<input type="range" id="echo" min="0" max="1" step="0.01" value="0">
+</div>
+
+<div class="slider">
+<label>Громкость</label>
+<input type="range" id="volume" min="0.5" max="2" step="0.1" value="1">
+</div>
+
+<div class="slider">
+<label>Удалить музыку</label>
+<input type="range" id="remove_music" min="0" max="1" step="1" value="0">
+</div>
+
+<div class="slider">
+<label>Только музыка</label>
+<input type="range" id="music_only" min="0" max="1" step="1" value="0">
+</div>
+
+</div>
+
+<div class="actions">
+<button class="btn-main" id="processBtn">Улучшить голос</button>
+<button class="btn-clear" id="clearBtn">Очистить</button>
+</div>
+
+
+<div class="result" id="resultBlock">
+<h3>Результат:</h3>
+<audio id="audioPlayer" controls></audio>
+
+<br><br>
+<a id="downloadBtn" class="btn-main" style="display:inline-block; padding:12px 30px; font-size:16px;">
+    Сохранить файл
+</a>
+</div>
+
+
+<div class="features">
+<div class="feature">🎧 AI обработка голоса</div>
+<div class="feature">⚡ Студийное качество</div>
+<div class="feature">🔒 Данные не сохраняются</div>
+</div>
+
+</div>
+
+<script>
+
+const uploadArea = document.getElementById('uploadArea');
+const fileInput = document.getElementById('fileInput');
+const processBtn = document.getElementById('processBtn');
+const clearBtn = document.getElementById('clearBtn');
+const resultBlock = document.getElementById('resultBlock');
+const audioPlayer = document.getElementById('audioPlayer');
+
+let selectedFile = null;
+
+uploadArea.onclick = () => fileInput.click();
+
+fileInput.onchange = (e) => {
+    selectedFile = e.target.files[0];
+    if(selectedFile){
+        alert("Файл выбран: " + selectedFile.name);
+    }
+};
+
+clearBtn.onclick = () => {
+    fileInput.value = "";
+    selectedFile = null;
+    resultBlock.style.display = "none";
+};
+
+processBtn.onclick = async () => {
+
+    if (!selectedFile) {
+        alert("Сначала выбери файл");
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", selectedFile);
+
+    formData.append("softness", softness.value);
+    formData.append("clarity", clarity.value);
+    formData.append("depth", depth.value);
+    formData.append("echo", echo.value);
+    formData.append("volume", volume.value);
+    formData.append("remove_music", remove_music.value);
+    formData.append("music_only", music_only.value);
+
+    processBtn.innerText = "Обработка...";
+    processBtn.disabled = true;
+
+    try {
+        const response = await fetch("http://127.0.0.1:5000/process", {
+            method: "POST",
+            body: formData
+        });
+
+        if (!response.ok) {
+            throw new Error("Ошибка сервера");
+        }
+
+        
+const blob = await response.blob();
+const url = URL.createObjectURL(blob);
+
+audioPlayer.src = url;
+
+const downloadBtn = document.getElementById("downloadBtn");
+downloadBtn.href = url;
+downloadBtn.download = "voice_enhanced.wav";
+
+resultBlock.style.display = "block";
+
+    } catch (error) {
+        alert("Ошибка: " + error.message);
+    }
+
+    processBtn.innerText = "Улучшить голос";
+    processBtn.disabled = false;
+};
+
+</script>
+
+</body>
+</html>
+
